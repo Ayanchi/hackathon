@@ -31,8 +31,7 @@ public class PublicationServiceImpl implements PublicationService {
     private final FileDataRepository fileDataRepository;
     private final CommentRepository commentRepository;
     @Override
-    public List<PublicationResponse> getAll(String token) {
-        userService.getUsernameFromToken(token);
+    public List<PublicationResponse> getAll() {
         return publicationMapper.toDtos(publicationRepository.findAll());
     }
 
@@ -51,7 +50,7 @@ public class PublicationServiceImpl implements PublicationService {
     }
 
     @Override
-    public PublicationResponse getPublicationById(String token, Long petitionId) {
+    public PublicationResponse getPublicationById(Long petitionId) {
         Optional<Publication> petition = publicationRepository.findById(petitionId);
         if (petition.isEmpty())
             throw new NotFoundException("the petition with this id not found!");

@@ -20,17 +20,16 @@ public class PublicationController {
     private final PublicationService publicationService;
 
     @GetMapping("/allPublications")
-    public List<PublicationResponse> allPublication(@RequestHeader(value = "Authorization") String token){
-        return publicationService.getAll(token);
+    public List<PublicationResponse> allPublication(){
+        return publicationService.getAll();
     }
     @PostMapping("/add")
     public void addPublication(@RequestBody(required = false) PublicationRequest publicationRequest, @RequestHeader( "Authorization") String token){
         publicationService.save(token, publicationRequest);
     }
     @GetMapping("/publication/byId/{publicationId}")
-    public PublicationResponse getPublicationById(@PathVariable Long publicationId,
-                                               @RequestHeader("Authorization") String token){
-        return publicationService.getPublicationById(token, publicationId);
+    public PublicationResponse getPublicationById(@PathVariable Long publicationId){
+        return publicationService.getPublicationById(publicationId);
     }
 
     private OpenAIApiService openAIApiService;

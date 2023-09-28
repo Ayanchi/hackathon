@@ -6,11 +6,11 @@ import com.example.hackathon.dto.publication.PublicationResponse;
 import java.util.List;
 
 public interface PublicationService {
-    List<PublicationResponse> getAll(String token);
+    List<PublicationResponse> getAll();
 
     void save(String token, PublicationRequest publicationRequest);
 
-    PublicationResponse getPublicationById(String token, Long petitionId);
+    PublicationResponse getPublicationById(Long petitionId);
 
     void commentToPetition(String token, Long petitionId, String comment);
 
