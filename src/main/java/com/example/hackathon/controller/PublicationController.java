@@ -21,6 +21,7 @@ public class PublicationController {
 
     @GetMapping("/allPublications")
     public List<PublicationResponse> allPublication(){
+        System.out.println("called");
         return publicationService.getAll();
     }
     @PostMapping("/add")

@@ -33,7 +33,7 @@ public class PublicationMapperImpl implements PublicationMapper {
         publicationResponse.setPetitionId(publication.getId());
         publicationResponse.setName(publication.getName());
         publicationResponse.setComments(commentMapper.toDtos(publication.getComments()));
-        publicationResponse.setPersonResponse(personMapper.toDto(publication.getPerson()));
+        publicationResponse.setPersonResponse(publication.getPerson()!=null? personMapper.toDto(publication.getPerson()): null);
         publicationResponse.setDescription(publication.getDescription());
         publicationResponse.setFileDataResponse(publication.getPetitionImage()==null?null: fileDataMapper.toDto(publication.getPetitionImage()));
         publicationResponse.setCountSign(publication.getCountLikes());
