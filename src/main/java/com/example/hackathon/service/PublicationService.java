@@ -2,6 +2,7 @@ package com.example.hackathon.service;
 
 import com.example.hackathon.dto.publication.PublicationRequest;
 import com.example.hackathon.dto.publication.PublicationResponse;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -17,4 +18,6 @@ public interface PublicationService {
     void delete(String token, Long publicationId);
 
     void likeToPublication(String token, Long publicationId);
+
+    Object uploadImagePublication(MultipartFile file, Long id);
 }

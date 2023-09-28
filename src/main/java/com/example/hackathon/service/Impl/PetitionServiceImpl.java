@@ -3,20 +3,20 @@ package com.example.hackathon.service.Impl;
 import com.example.hackathon.ChatGpt.OpenAIApiClient;
 import com.example.hackathon.dto.petition.PetitionRequest;
 import com.example.hackathon.dto.petition.PetitionResponse;
-import com.example.hackathon.entities.Person;
-import com.example.hackathon.entities.Petition;
-import com.example.hackathon.entities.Publication;
-import com.example.hackathon.entities.User;
+import com.example.hackathon.entities.*;
 import com.example.hackathon.enums.Role;
+import com.example.hackathon.mapper.FileDataMapper;
 import com.example.hackathon.mapper.PetitionMapper;
 import com.example.hackathon.repository.FileDataRepository;
 import com.example.hackathon.repository.PetitionRepository;
 import com.example.hackathon.repository.PublicationRepository;
+import com.example.hackathon.service.FileDataService;
 import com.example.hackathon.service.OpenAIApiService;
 import com.example.hackathon.service.PetitionService;
 import com.example.hackathon.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.*;
 
@@ -28,6 +28,8 @@ public class PetitionServiceImpl implements PetitionService {
     private final UserService userService;
     private final FileDataRepository fileDataRepository;
     private final PublicationRepository publicationRepository;
+    private final FileDataService fileDataService;
+    private final FileDataMapper fileDataMapper;
     @Override
     public List<PetitionResponse> getAllPetitions() {
         return petitionMapper.toDtos(petitionRepository.findAll());
@@ -106,4 +108,34 @@ public class PetitionServiceImpl implements PetitionService {
 //        System.out.println(response);
         return null;
     }
+    @Override
+    public Object uploadImagePetition(MultipartFile file, Long id) {
+
+
+        Petition petition = new Petition();
+        FileData fileData = new FileData();
+
+        if (id!=null){
+            petition = petitionRepository.findById(id).orElseThrow();
+            petition.setImageOfPetition(fileData);
+
+        }
+
+        if (petition.getImageOfPetition() != null) {
+            fileData = petition.getImageOfPetition();
+            petition.setImageOfPetition(null);
+            FileData save = fileDataService.uploadFile(file, fileData);
+            petition.setImageOfPetition(save);
+            Object o = id!=null? petitionRepository.save(petition): "";
+            return fileDataMapper.toDto(save);
+        } else {
+            fileData = fileDataService.uploadFile(file);
+            Object o = id!=null? petitionRepository.save(petition): "";
+            return fileDataMapper.toDto(fileData);
+        }
+
+
+
+    }
+
 }

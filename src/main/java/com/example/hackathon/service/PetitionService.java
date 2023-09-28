@@ -2,6 +2,7 @@ package com.example.hackathon.service;
 
 import com.example.hackathon.dto.petition.PetitionRequest;
 import com.example.hackathon.dto.petition.PetitionResponse;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -19,4 +20,6 @@ public interface PetitionService {
     PetitionResponse getById(Long petitionId);
 
     PetitionResponse createPetitionAI(Long publicationId);
+
+    Object uploadImagePetition(MultipartFile file, Long id);
 }

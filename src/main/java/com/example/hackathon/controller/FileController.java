@@ -1,8 +1,11 @@
 package com.example.hackathon.controller;
 
 
+import com.example.hackathon.repository.PetitionRepository;
 import com.example.hackathon.service.FileDataService;
 import com.example.hackathon.service.PersonService;
+import com.example.hackathon.service.PetitionService;
+import com.example.hackathon.service.PublicationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +23,8 @@ public class FileController {
 
     private final FileDataService fileDataService;
     private final PersonService personService;
+    private final PublicationService publicationService;
+    private final PetitionService petitionService;
 
 
     @GetMapping("/file/{id}")
@@ -32,38 +37,56 @@ public class FileController {
         fileDataService.downloadFile(id, http);
     }
 
-
-
-
-
-    @PostMapping("/passport/upload")
-    public ResponseEntity<?> uploadAvatar(@RequestPart MultipartFile file, @RequestHeader("Authorization") String token) throws IOException {
+    @PostMapping("/upload/avatar")
+    public ResponseEntity<?> uploadAvatar(@RequestPart MultipartFile file, @RequestHeader("Authorization") String token) {
 
         return ResponseEntity.status(HttpStatus.OK)
-                .body(personService.uploadResume(file, token));
+                .body(personService.uploadAvatar(file, token));
     }
 
-    @PostMapping("/image/publication/upload/{publicationId}")
-    public ResponseEntity<?> uploadImagePublication(@RequestPart MultipartFile file, @PathVariable Long publicationId,
-                                                 @RequestHeader("Authorization") String token) throws IOException {
-
+    @PostMapping("/upload/image/publication")
+    public ResponseEntity<?> uploadImagePublication(@RequestPart MultipartFile file, @RequestParam(required = false) Long id){
         return ResponseEntity.status(HttpStatus.OK)
-                .body(personService.uploadImagePublication(file, token, publicationId));
+                .body(publicationService.uploadImagePublication(file, id));
     }
-    @PostMapping("/image/personPassport/upload")
-    public ResponseEntity<?> uploadImagePersonPassport(@RequestPart MultipartFile file,
-                                                    @RequestHeader("Authorization") String token) throws IOException {
-
+    @PostMapping("/upload/iamge/petition")
+    public ResponseEntity<?> uploadImagePetition(@RequestPart MultipartFile file, @RequestParam(required = false) Long id){
         return ResponseEntity.status(HttpStatus.OK)
-                .body(personService.uploadImagePitition(file, token));
+                .body(petitionService.uploadImagePetition(file, id));
     }
-    @PostMapping("/image/petition/upload/{petitionId}")
-    public ResponseEntity<?> uploadImagePetition(@RequestPart MultipartFile file, @PathVariable Long petitionId,
-                                                 @RequestHeader("Authorization") String token) throws IOException {
 
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(personService.uploadImagePitition(file, token, petitionId));
-    }
+
+
+
+
+//    @PostMapping("/passport/upload")
+//    public ResponseEntity<?> uploadAvatar(@RequestPart MultipartFile file, @RequestHeader("Authorization") String token) throws IOException {
+//
+//        return ResponseEntity.status(HttpStatus.OK)
+//                .body(personService.uploadResume(file, token));
+//    }
+//
+//    @PostMapping("/image/publication/upload")
+//    public ResponseEntity<?> uploadImagePublication(@RequestPart MultipartFile file,
+//                                                 @RequestHeader("Authorization") String token) throws IOException {
+//
+//        return ResponseEntity.status(HttpStatus.OK)
+//                .body(personService.uploadImagePublication(file, token));
+//    }
+//    @PostMapping("/image/personPassport/upload")
+//    public ResponseEntity<?> uploadImagePersonPassport(@RequestPart MultipartFile file,
+//                                                    @RequestHeader("Authorization") String token) throws IOException {
+//
+//        return ResponseEntity.status(HttpStatus.OK)
+//                .body(personService.uploadImagePersonPassport(file, token));
+//    }
+//    @PostMapping("/image/petition/upload")
+//    public ResponseEntity<?> uploadImagePetition(@RequestPart MultipartFile file,
+//                                                 @RequestHeader("Authorization") String token) throws IOException {
+//
+//        return ResponseEntity.status(HttpStatus.OK)
+//                .body(personService.uploadImagePitition(file, token));
+//    }
 
 
 }

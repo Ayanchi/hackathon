@@ -13,4 +13,5 @@ public interface FileDataService {
     void downloadFile(Long id, HttpServletResponse http) ;
 
     void getFileById(Long id, HttpServletResponse httpServletResponse);
+
 }

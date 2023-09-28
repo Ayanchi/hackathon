@@ -2,19 +2,19 @@ package com.example.hackathon.service.Impl;
 
 import com.example.hackathon.dto.publication.PublicationRequest;
 import com.example.hackathon.dto.publication.PublicationResponse;
-import com.example.hackathon.entities.Comment;
-import com.example.hackathon.entities.Person;
-import com.example.hackathon.entities.Publication;
-import com.example.hackathon.entities.User;
+import com.example.hackathon.entities.*;
 import com.example.hackathon.enums.Role;
+import com.example.hackathon.mapper.FileDataMapper;
 import com.example.hackathon.mapper.PublicationMapper;
 import com.example.hackathon.repository.CommentRepository;
 import com.example.hackathon.repository.FileDataRepository;
 import com.example.hackathon.repository.PublicationRepository;
+import com.example.hackathon.service.FileDataService;
 import com.example.hackathon.service.PublicationService;
 import com.example.hackathon.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.webjars.NotFoundException;
 
 import java.time.LocalDateTime;
@@ -30,6 +30,8 @@ public class PublicationServiceImpl implements PublicationService {
     private final UserService userService;
     private final FileDataRepository fileDataRepository;
     private final CommentRepository commentRepository;
+    private final FileDataService fileDataService;
+    private final FileDataMapper fileDataMapper;
     @Override
     public List<PublicationResponse> getAll() {
         return publicationMapper.toDtos(publicationRepository.findAll());
@@ -101,4 +103,100 @@ public class PublicationServiceImpl implements PublicationService {
         }
 
     }
+
+    @Override
+    public Object uploadImagePublication(MultipartFile file, Long id) {
+
+
+        Publication publication = new Publication();
+        FileData fileData = new FileData();
+
+        if (id!=null){
+            publication = publicationRepository.findById(id).orElseThrow();
+            publication.setPetitionImage(fileData);
+
+        }
+
+            if (publication.getPetitionImage() != null) {
+                fileData = publication.getPetitionImage();
+                publication.setPetitionImage(null);
+                FileData save = fileDataService.uploadFile(file, fileData);
+                publication.setPetitionImage(save);
+                Object o = id!=null? publicationRepository.save(publication): "";
+                return fileDataMapper.toDto(save);
+            } else {
+                fileData = fileDataService.uploadFile(file);
+                Object o = id!=null? publicationRepository.save(publication): "";
+                return fileDataMapper.toDto(fileData);
+            }
+
+
+
+    }
+
+//     public Object uploadImagePublication(MultipartFile file, String token, Long publicationId) {
+//
+//        User user = userService.getUsernameFromToken(token);
+//        if (user.getRole() == Role.USER) {
+//            Publication publication = publicationRepository.findById(publicationId).orElseThrow();
+//
+//            if (publication.getPetitionImage() != null) {
+//                FileData fileData = new FileData();
+//                fileData = publication.getPetitionImage();
+//                publication.setPetitionImage(null);
+//                FileData save = fileDataService.uploadFile(file, fileData);
+//                publication.setPetitionImage(save);
+//                return fileDataMapper.toDto(save);
+//            } else {
+//                FileData fileData = fileDataService.uploadFile(file);
+//                publication.setPetitionImage(fileData);
+//                publicationRepository.save(publication);
+//                return fileDataMapper.toDto(fileData);
+//            }
+//        }
+//        return null;
+//    }
+//
+//    public Object uploadImagePitition(MultipartFile file, String token, Long petitionId) {
+//        User user = userService.getUsernameFromToken(token);
+//        if (user.getRole() == Role.ADMIN) {
+//            Petition petition = petitionRepository.findById(petitionId).get();
+//
+//            if (petition.getImageOfPetition() != null) {
+//                FileData fileData = new FileData();
+//                fileData = petition.getImageOfPetition();
+//                petition.setImageOfPetition(null);
+//                FileData save = fileDataService.uploadFile(file, fileData);
+//                petition.setImageOfPetition(save);
+//                return fileDataMapper.toDto(save);
+//            } else {
+//                FileData fileData = fileDataService.uploadFile(file);
+//                petition.setImageOfPetition(fileData);
+//                petitionRepository.save(petition);
+//                return fileDataMapper.toDto(fileData);
+//            }
+//        }
+//        return null;
+//    }
+//    public Object uploadImagePitition(MultipartFile file, String token) {
+//        User user = userService.getUsernameFromToken(token);
+//        if (user.getRole() != Role.ADMIN) {
+//            Person person = userService.getUsernameFromToken(token).getPerson();
+//
+//            if (person.getPassportImage() != null) {
+//                FileData fileData = new FileData();
+//                fileData = person.getPassportImage();
+//                person.setPassportImage(null);
+//                FileData save = fileDataService.uploadFile(file, fileData);
+//                person.setPassportImage(save);
+//                return fileDataMapper.toDto(save);
+//            } else {
+//                FileData fileData = fileDataService.uploadFile(file);
+//                person.setPassportImage(fileData);
+//                personRepository.save(person);
+//                return fileDataMapper.toDto(fileData);
+//            }
+//        }
+//        return null;
+//    }
 }
