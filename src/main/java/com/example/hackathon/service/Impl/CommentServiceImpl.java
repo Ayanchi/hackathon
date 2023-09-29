@@ -41,7 +41,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<CommentResponse> getbyPetitionId( Long petitionId) {
-        return commentMapper.toDtos(commentRepository.findAllByPublicationId(petitionId));
+    public List<CommentResponse> getbyPublicationId( Long publicationId) {
+        return commentMapper.toDtos(commentRepository.findAllByPublicationId(publicationId));
     }
 }

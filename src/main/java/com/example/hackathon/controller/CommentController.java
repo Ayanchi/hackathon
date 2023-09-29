@@ -16,10 +16,10 @@ public class CommentController {
     private final PublicationService publicationService;
     private final CommentService commentService;
 
-    @PostMapping("/comment/toPetition/{petitionId}")
-    public void commentToPetition(@RequestHeader("Authorization") String token, @PathVariable Long petitionId,
+    @PostMapping("/comment/toPublication/{publicationId}")
+    public void commentToPetition(@RequestHeader("Authorization") String token, @PathVariable Long publicationId,
                                   @RequestParam(required = false) String comment){
-        publicationService.commentToPetition(token, petitionId, comment);
+        publicationService.commentToPetition(token, publicationId, comment);
     }
 
     @PostMapping("/like/{commentId}")
@@ -27,10 +27,10 @@ public class CommentController {
         commentService.likeTheComment(token, commentId);
     }
 
-    @GetMapping("/getByPetitionId/{petitionId}")
-    public List<CommentResponse> getByPetitionId(
-                                                 @PathVariable Long petitionId){
-        return commentService.getbyPetitionId(petitionId);
+    @GetMapping("/getByPublicationId/{publicationId}")
+    public List<CommentResponse> publicationId(
+                                                 @PathVariable Long publicationId){
+        return commentService.getbyPublicationId(publicationId);
     }
 
 }

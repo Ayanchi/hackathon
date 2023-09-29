@@ -7,5 +7,5 @@ import java.util.List;
 public interface CommentService {
     void likeTheComment(String token, Long commentId);
 
-    List<CommentResponse> getbyPetitionId(Long petitionId);
+    List<CommentResponse> getbyPublicationId(Long publicationId);
 }
