@@ -19,6 +19,7 @@ public class CommentController {
     @PostMapping("/comment/toPublication/{publicationId}")
     public void commentToPetition(@RequestHeader("Authorization") String token, @PathVariable Long publicationId,
                                   @RequestParam(required = false) String comment){
+        System.out.println("\n\ncomment:" + comment);
         publicationService.commentToPetition(token, publicationId, comment);
     }
 
