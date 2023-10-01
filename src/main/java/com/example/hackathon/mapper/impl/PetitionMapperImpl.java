@@ -48,6 +48,8 @@ public class PetitionMapperImpl implements PetitionMapper {
         petition.setAuthor(petitionResponse.getAuthor());
         petition.setName(petitionResponse.getName());
         petition.setCreationDate(LocalDateTime.now().toString());
+        petition.setGoal(50000);
+        petition.setCountOfSignIn(0);
 
         return petition;
     }
