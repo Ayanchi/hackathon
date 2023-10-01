@@ -62,6 +62,8 @@ public class PetitionMapperImpl implements PetitionMapper {
         petitionResponse.setDescription(petition.getDescription());
         petitionResponse.setAuthor(petition.getAuthor());
         petitionResponse.setCreationDate(petition.getCreationDate());
+        petitionResponse.setGoal(petition.getGoal());
+        petitionResponse.setCountSigned(petition.getCountOfSignIn());
 
         return petitionResponse;
     }

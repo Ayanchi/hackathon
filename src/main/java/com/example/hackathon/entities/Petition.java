@@ -27,6 +27,7 @@ public class Petition {
     @ManyToMany(cascade = CascadeType.ALL)
     private List<Person> signedPersons;
     private Integer countOfSignIn;
+    private Integer goal;
 
 
 }

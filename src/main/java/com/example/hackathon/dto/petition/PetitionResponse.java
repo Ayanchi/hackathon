@@ -13,4 +13,6 @@ public class PetitionResponse {
     private String author;
     private String description;
     private String creationDate;
+    private Integer countSigned;
+    private Integer goal;
 }

@@ -16,12 +16,12 @@ public class CommentController {
     private final PublicationService publicationService;
     private final CommentService commentService;
 
-    @PostMapping("/comment/toPublication/{publicationId}")
-    public void commentToPetition(@RequestHeader("Authorization") String token, @PathVariable Long publicationId,
-                                  @RequestBody(required = false) String comment){
-        System.out.println("\n\ncomment:" + comment);
-        publicationService.commentToPetition(token, publicationId, comment);
-    }
+        @PostMapping("/comment/toPublication/{publicationId}")
+        public void commentToPetition(@RequestHeader("Authorization") String token, @PathVariable Long publicationId,
+                                      @RequestBody(required = false) String comment){
+            System.out.println("\n\ncomment:" + comment);
+            publicationService.commentToPetition(token, publicationId, comment);
+        }
 
     @PostMapping("/like/{commentId}")
     public void likeComment(@RequestHeader("Authorization") String token, @PathVariable Long commentId){
