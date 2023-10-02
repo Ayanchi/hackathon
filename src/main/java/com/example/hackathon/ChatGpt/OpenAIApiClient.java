@@ -12,8 +12,8 @@ import org.apache.hc.core5.http.io.entity.StringEntity;
 //hakatonApiKey
 public class OpenAIApiClient {
 
-    private static final String API_URL = "https://api.openai.com/v1/engines/code-davinci-002/completions"; // URL может отличаться
-    private static final String API_KEY = "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";
+    private static final String API_URL = "https://api.openai.com/v1/engines/https://api.openai.com/v1/chat/completions"; // URL может отличаться
+    private static final String API_KEY = "";
 
     public String getResponse(String prompt) {
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
