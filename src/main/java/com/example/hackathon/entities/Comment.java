@@ -24,6 +24,7 @@ public class Comment {
     private String firstnameOfSender;
     private String lastnameOfSender;
     private String emailOfSender;
+    private Boolean isLiked = false;
     private Integer likeCount = 0;
     @ManyToMany(mappedBy = "myLikedComments")
     private List<Person> likedPersons;

@@ -50,6 +50,9 @@ public class PetitionServiceImpl implements PetitionService {
             petition.setDescription(petitionResponse.getDescription());
             petition.setAuthor(petitionResponse.getAuthor());
             petition.setName(petitionResponse.getName());
+            petition.setFromGPT(false);
+            petition.setGoal(50);
+            petition.setCountOfSignIn(0);
             petition.setCreationDate(petitionResponse.getCreationDate()!=null? petitionResponse.getCreationDate() : null);
             petitionRepository.save(petition);
         }

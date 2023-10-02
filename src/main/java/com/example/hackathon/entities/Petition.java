@@ -28,6 +28,7 @@ public class Petition {
     private List<Person> signedPersons;
     private Integer countOfSignIn;
     private Integer goal;
+    private Boolean fromGPT = false;
 
 
 }

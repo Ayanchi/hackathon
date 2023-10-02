@@ -27,6 +27,7 @@ public class CommentServiceImpl implements CommentService {
         Person person = userService.getUsernameFromToken(token).getPerson();
         Comment comment = commentRepository.findById(commentId).orElseThrow();
         if (person.getMyLikedComments().contains(comment)){
+            comment.setIsLiked(false);
             comment.setLikeCount(comment.getLikeCount()-1);
             person.getMyLikedComments().remove(comment);
             personRepository.save(person);
@@ -34,6 +35,7 @@ public class CommentServiceImpl implements CommentService {
         }
         else {
             comment.setLikeCount(comment.getLikeCount()==null?1: comment.getLikeCount()+1);
+            comment.setIsLiked(true);
             person.getMyLikedComments().add(comment);
             personRepository.save(person);
             commentRepository.save(comment);
