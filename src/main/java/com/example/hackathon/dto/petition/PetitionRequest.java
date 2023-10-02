@@ -14,4 +14,5 @@ public class PetitionRequest {
     private String author;
     private String description;
     private String creationDate;
+    private Integer goal;
 }

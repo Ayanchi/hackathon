@@ -12,6 +12,7 @@ public interface PetitionService {
     void save(PetitionRequest petitionRequest, String token);
 
     void update(PetitionRequest petitionResponse, String token);
+    PetitionResponse update(PetitionRequest petitionResponse, Long id);
 
     void delete(String token, Long petitionId);
 

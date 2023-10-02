@@ -54,6 +54,11 @@ public class PetitionController {
     public PetitionResponse createPetitionOnChatGpt(@PathVariable Long publicationId){
         return petitionService.createPetitionAI(publicationId);
     }
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    @PutMapping("/update/{petitionId}")
+    public PetitionResponse updatePetition(@RequestBody PetitionRequest petitionRequest,@PathVariable Long petitionId){
+        return petitionService.update(petitionRequest, petitionId);
+    }
 
 
 //eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBlbWFpbCIsImF1dGgiOnsiYXV0aG9yaXR5IjoiQURNSU4ifSwiaWF0IjoxNjk1NDk1ODc0LCJleHAiOjE2OTU3OTU4NzR9._saRIXO8ro-BpXJuywJ2O2KnHBQae72Zv48gVq6NKHo

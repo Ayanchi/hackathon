@@ -59,6 +59,22 @@ public class PetitionServiceImpl implements PetitionService {
     }
 
     @Override
+    public PetitionResponse update(PetitionRequest petitionRequest, Long id) {
+        Petition petition = petitionRepository.findById(id).orElseThrow();
+        petition.setName(petitionRequest.getName());
+        petition.setAuthor(petitionRequest.getAuthor());
+        petition.setDescription(petitionRequest.getDescription());
+        petition.setGoal(petitionRequest.getGoal());
+        Optional<FileData> fileData = fileDataRepository.findById(petitionRequest.getImageId()!=null? petitionRequest.getImageId(): 0);
+        if (fileData.isPresent()){
+            petition.setImageOfPetition(fileData.get());
+
+        }
+        petitionRepository.save(petition);
+        return petitionMapper.toDto(petition);
+    }
+
+    @Override
     public void delete(String token, Long petitionId) {
         if(userService.getUsernameFromToken(token).getRole().equals(Role.ADMIN)){
             petitionRepository.deleteById(petitionId);
