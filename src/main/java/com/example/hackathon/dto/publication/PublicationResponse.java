@@ -20,4 +20,5 @@ public class PublicationResponse {
     private List<CommentResponse> comments;
     private Long countSign;
     private String date;
+    private Long goal;
 }

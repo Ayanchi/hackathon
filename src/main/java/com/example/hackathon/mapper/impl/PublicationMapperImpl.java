@@ -39,6 +39,7 @@ public class PublicationMapperImpl implements PublicationMapper {
         publicationResponse.setFileDataResponse(publication.getPetitionImage()==null?null: fileDataMapper.toDto(publication.getPetitionImage()));
         publicationResponse.setCountSign(publication.getCountLikes());
         publicationResponse.setDate(String.valueOf(publication.getCreatedTime()!=null? publication.getCreatedTime() : LocalDateTime.now()));
+        publicationResponse.setGoal(publication.getMaxSignCount()!=null? publication.getMaxSignCount():5000L);
         return publicationResponse;
     }
 }
