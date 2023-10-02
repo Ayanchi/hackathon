@@ -3,17 +3,21 @@ package com.example.hackathon.service.Impl;
 import com.example.hackathon.dto.comment.CommentResponse;
 import com.example.hackathon.entities.Comment;
 import com.example.hackathon.entities.Person;
+import com.example.hackathon.entities.Publication;
 import com.example.hackathon.entities.User;
 import com.example.hackathon.mapper.CommentMapper;
 import com.example.hackathon.repository.CommentRepository;
 import com.example.hackathon.repository.PersonRepository;
+import com.example.hackathon.repository.PublicationRepository;
 import com.example.hackathon.repository.UserRepository;
 import com.example.hackathon.service.CommentService;
 import com.example.hackathon.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -22,6 +26,7 @@ public class CommentServiceImpl implements CommentService {
     private final UserService userService;
     private final PersonRepository personRepository;
     private final CommentMapper commentMapper;
+    private final PublicationRepository publicationRepository;
     @Override
     public void likeTheComment(String token, Long commentId) {
         Person person = userService.getUsernameFromToken(token).getPerson();
@@ -45,5 +50,21 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public List<CommentResponse> getbyPublicationId( Long publicationId) {
         return commentMapper.toDtos(commentRepository.findAllByPublicationId(publicationId));
+    }
+
+    @Transactional
+    @Override
+    public void delete(Long commentId) {
+        Optional<Comment> comment = commentRepository.findById(commentId);
+        if (comment.isPresent()){
+            System.out.println("here 0");
+            Publication publication = comment.get().getPublication();
+            publication.getComments().remove(comment.get());
+            publicationRepository.save(publication);
+            commentRepository.deleteById(commentId);
+            System.out.println("here 1");
+
+        }
+
     }
 }

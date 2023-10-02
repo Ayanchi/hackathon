@@ -8,4 +8,6 @@ public interface CommentService {
     void likeTheComment(String token, Long commentId);
 
     List<CommentResponse> getbyPublicationId(Long publicationId);
+
+    void delete(Long commentId);
 }

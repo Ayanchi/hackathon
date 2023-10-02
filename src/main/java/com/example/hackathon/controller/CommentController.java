@@ -4,6 +4,7 @@ import com.example.hackathon.dto.comment.CommentResponse;
 import com.example.hackathon.service.CommentService;
 import com.example.hackathon.service.PublicationService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,6 +33,12 @@ public class CommentController {
     public List<CommentResponse> publicationId(
                                                  @PathVariable Long publicationId){
         return commentService.getbyPublicationId(publicationId);
+    }
+
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    @DeleteMapping("/delete/byId/{commentId}")
+    public void deleteById(@PathVariable Long commentId){
+            commentService.delete(commentId);
     }
 
 }
