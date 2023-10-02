@@ -25,8 +25,8 @@ public class PublicationController {
         return publicationService.getAll();
     }
     @PostMapping("/add")
-    public void addPublication(@RequestBody(required = false) PublicationRequest publicationRequest, @RequestHeader( "Authorization") String token){
-        publicationService.save(token, publicationRequest);
+    public PublicationResponse addPublication(@RequestBody(required = false) PublicationRequest publicationRequest, @RequestHeader( "Authorization") String token){
+        return  publicationService.save(token, publicationRequest);
     }
     @GetMapping("/publication/byId/{publicationId}")
     public PublicationResponse getPublicationById(@PathVariable Long publicationId){

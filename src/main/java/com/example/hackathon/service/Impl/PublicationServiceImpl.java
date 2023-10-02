@@ -38,7 +38,7 @@ public class PublicationServiceImpl implements PublicationService {
     }
 
     @Override
-    public void save(String token, PublicationRequest publicationRequest) {
+    public PublicationResponse save(String token, PublicationRequest publicationRequest) {
         Publication publication = new Publication();
         publication.setName(publicationRequest.getName());
         publication.setDescription(publicationRequest.getDescription());
@@ -49,6 +49,7 @@ public class PublicationServiceImpl implements PublicationService {
         User user = userService.getUsernameFromToken(token);
         publication.setPerson(user.getPerson());
         publicationRepository.save(publication);
+        return publicationMapper.toDto(publication);
     }
 
     @Override

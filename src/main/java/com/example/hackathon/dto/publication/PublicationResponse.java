@@ -19,4 +19,5 @@ public class PublicationResponse {
     private String description;
     private List<CommentResponse> comments;
     private Long countSign;
+    private String date;
 }

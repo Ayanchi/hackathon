@@ -9,6 +9,7 @@ import com.example.hackathon.mapper.PublicationMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +38,7 @@ public class PublicationMapperImpl implements PublicationMapper {
         publicationResponse.setDescription(publication.getDescription());
         publicationResponse.setFileDataResponse(publication.getPetitionImage()==null?null: fileDataMapper.toDto(publication.getPetitionImage()));
         publicationResponse.setCountSign(publication.getCountLikes());
+        publicationResponse.setDate(String.valueOf(publication.getCreatedTime()!=null? publication.getCreatedTime() : LocalDateTime.now()));
         return publicationResponse;
     }
 }

@@ -9,7 +9,7 @@ import java.util.List;
 public interface PublicationService {
     List<PublicationResponse> getAll();
 
-    void save(String token, PublicationRequest publicationRequest);
+    PublicationResponse save(String token, PublicationRequest publicationRequest);
 
     PublicationResponse getPublicationById(Long petitionId);
 
