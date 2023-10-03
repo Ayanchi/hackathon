@@ -28,7 +28,7 @@ public class CommentServiceImpl implements CommentService {
     private final CommentMapper commentMapper;
     private final PublicationRepository publicationRepository;
     @Override
-    public void likeTheComment(String token, Long commentId) {
+    public Boolean likeTheComment(String token, Long commentId) {
         Person person = userService.getUsernameFromToken(token).getPerson();
         Comment comment = commentRepository.findById(commentId).orElseThrow();
         if (person.getMyLikedComments().contains(comment)){
@@ -37,6 +37,7 @@ public class CommentServiceImpl implements CommentService {
             person.getMyLikedComments().remove(comment);
             personRepository.save(person);
             commentRepository.save(comment);
+            return false;
         }
         else {
             comment.setLikeCount(comment.getLikeCount()==null?1: comment.getLikeCount()+1);
@@ -44,6 +45,7 @@ public class CommentServiceImpl implements CommentService {
             person.getMyLikedComments().add(comment);
             personRepository.save(person);
             commentRepository.save(comment);
+            return true;
         }
     }
 
@@ -63,8 +65,6 @@ public class CommentServiceImpl implements CommentService {
             publicationRepository.save(publication);
             commentRepository.deleteById(commentId);
             System.out.println("here 1");
-
         }
-
     }
 }

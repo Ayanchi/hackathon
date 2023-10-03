@@ -25,8 +25,8 @@ public class CommentController {
         }
 
     @PostMapping("/like/{commentId}")
-    public void likeComment(@RequestHeader("Authorization") String token, @PathVariable Long commentId){
-        commentService.likeTheComment(token, commentId);
+    public Boolean likeComment(@RequestHeader("Authorization") String token, @PathVariable Long commentId){
+        return commentService.likeTheComment(token, commentId);
     }
 
     @GetMapping("/getByPublicationId/{publicationId}")
