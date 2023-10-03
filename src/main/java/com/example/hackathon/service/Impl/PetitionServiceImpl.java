@@ -117,8 +117,7 @@ public class PetitionServiceImpl implements PetitionService {
     public PetitionResponse createPetitionAI(Long publicationId) {
         Publication publication = publicationRepository.findById(publicationId).get();
         OpenAIApiService aiApiService = new OpenAIApiService();
-        System.out.println(aiApiService.getResponse("оцени данную петицию переработай, название: "+
-                publication.getName()+", описание: "+ publication.getDescription()+" и также несколько актуальных коментарии: A)круто B)ужас C)невереятно")
+        System.out.println(aiApiService.getResponse("оцени данную петицию переработай, название: "+ publication.getName()+", описание: "+ publication.getDescription()+" и также несколько актуальных коментарии: A)круто B)ужас C)невереятно")
        );
 //        OpenAIApiClient apiClient = new OpenAIApiClient();
 //        String response = apiClient.getResponse("privet");
