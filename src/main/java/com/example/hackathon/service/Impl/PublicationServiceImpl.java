@@ -115,7 +115,6 @@ public class PublicationServiceImpl implements PublicationService {
         if (id!=null){
             publication = publicationRepository.findById(id).orElseThrow();
             publication.setPetitionImage(fileData);
-
         }
 
             if (publication.getPetitionImage() != null) {
