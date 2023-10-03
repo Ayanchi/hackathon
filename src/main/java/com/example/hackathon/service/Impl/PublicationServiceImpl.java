@@ -102,7 +102,14 @@ public class PublicationServiceImpl implements PublicationService {
             publicationRepository.save(publication.get());
 
         }
+        checkForGpt(publication.get());
 
+    }
+
+    private void checkForGpt(Publication publication) {
+        if (publication.getCountLikes()>= publication.getMaxSignCount()){
+
+        }
     }
 
     @Override

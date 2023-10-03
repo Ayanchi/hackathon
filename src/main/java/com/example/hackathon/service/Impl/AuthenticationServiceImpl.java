@@ -123,6 +123,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             UserResponse userResponse = new UserResponse();
             userResponse.setFirstname(user.getFirstname());
             userResponse.setLastname(user.getLastname());
+            userResponse.setRole(user.getRole());
+            userResponse.setEmail(user.getEmail());
+            userResponse.setId(user.getId());
             response.setUser(userResponse);
             if (userRepository.findAllByEmail(user.getEmail()).size()>1){
                 throw new BadCredentialsException("this user already registered!");
