@@ -10,6 +10,7 @@ import com.example.hackathon.repository.CommentRepository;
 import com.example.hackathon.repository.FileDataRepository;
 import com.example.hackathon.repository.PublicationRepository;
 import com.example.hackathon.service.FileDataService;
+import com.example.hackathon.service.PetitionService;
 import com.example.hackathon.service.PublicationService;
 import com.example.hackathon.service.UserService;
 import lombok.AllArgsConstructor;
@@ -32,6 +33,7 @@ public class PublicationServiceImpl implements PublicationService {
     private final CommentRepository commentRepository;
     private final FileDataService fileDataService;
     private final FileDataMapper fileDataMapper;
+    private final PetitionService petitionService;
     @Override
     public List<PublicationResponse> getAll() {
         return publicationMapper.toDtos(publicationRepository.findAll());
@@ -108,7 +110,7 @@ public class PublicationServiceImpl implements PublicationService {
 
     private void checkForGpt(Publication publication) {
         if (publication.getCountLikes()>= publication.getMaxSignCount()){
-
+            petitionService.createPetitionAI(publication.getId());
         }
     }
 

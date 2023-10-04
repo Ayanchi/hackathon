@@ -20,7 +20,7 @@ public interface PetitionService {
 
     PetitionResponse getById(Long petitionId);
 
-    PetitionResponse createPetitionAI(Long publicationId);
+    String createPetitionAI(Long publicationId);
 
     Object uploadImagePetition(MultipartFile file, Long id);
 }

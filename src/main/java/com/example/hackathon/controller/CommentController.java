@@ -19,9 +19,9 @@ public class CommentController {
 
         @PostMapping("/comment/toPublication/{publicationId}")
         public void commentToPetition(@RequestHeader("Authorization") String token, @PathVariable Long publicationId,
-                                      @RequestBody(required = false) String comment){
+                                      @RequestBody(required = false) CommentResponse comment){
             System.out.println("\n\ncomment:" + comment);
-            publicationService.commentToPetition(token, publicationId, comment);
+            publicationService.commentToPetition(token, publicationId, comment.getComment());
         }
 
     @PostMapping("/like/{commentId}")

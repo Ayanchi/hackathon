@@ -1,12 +1,12 @@
 package com.example.hackathon.service.Impl;
 
-import com.example.hackathon.ChatGpt.OpenAIApiClient;
 import com.example.hackathon.dto.petition.PetitionRequest;
 import com.example.hackathon.dto.petition.PetitionResponse;
 import com.example.hackathon.entities.*;
 import com.example.hackathon.enums.Role;
 import com.example.hackathon.mapper.FileDataMapper;
 import com.example.hackathon.mapper.PetitionMapper;
+import com.example.hackathon.repository.CommentRepository;
 import com.example.hackathon.repository.FileDataRepository;
 import com.example.hackathon.repository.PetitionRepository;
 import com.example.hackathon.repository.PublicationRepository;
@@ -14,24 +14,51 @@ import com.example.hackathon.service.FileDataService;
 import com.example.hackathon.service.OpenAIApiService;
 import com.example.hackathon.service.PetitionService;
 import com.example.hackathon.service.UserService;
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.*;
 
 @Service
-@AllArgsConstructor
 public class PetitionServiceImpl implements PetitionService {
-    private final PetitionMapper petitionMapper;
-    private final PetitionRepository petitionRepository;
-    private final UserService userService;
-    private final FileDataRepository fileDataRepository;
-    private final PublicationRepository publicationRepository;
-    private final FileDataService fileDataService;
-    private final FileDataMapper fileDataMapper;
+
+
+    @Value("${openai.api.key}")
+    public String apiKey;
+
+    @Autowired
+    private  PetitionMapper petitionMapper;
+    @Autowired
+    private OpenAIApiService openAIApiService;
+    @Autowired
+
+    private  PetitionRepository petitionRepository;
+    @Autowired
+
+    private  UserService userService;
+    @Autowired
+
+    private  FileDataRepository fileDataRepository;
+    @Autowired
+
+    private  PublicationRepository publicationRepository;
+    @Autowired
+
+    private  FileDataService fileDataService;
+    @Autowired
+
+    private  FileDataMapper fileDataMapper;
+    @Autowired
+
+    private  CommentRepository commentRepository;
+
+
     @Override
     public List<PetitionResponse> getAllPetitions() {
+        System.out.println("\n\nthe key:+"+apiKey);
+
         return petitionMapper.toDtos(petitionRepository.findAll());
     }
 
@@ -114,19 +141,17 @@ public class PetitionServiceImpl implements PetitionService {
     }
 
     @Override
-    public PetitionResponse createPetitionAI(Long publicationId) {
+    public String createPetitionAI(Long publicationId) {
+        System.out.println("the function is called");
         Publication publication = publicationRepository.findById(publicationId).get();
-        OpenAIApiService aiApiService = new OpenAIApiService();
-        System.out.println(aiApiService.getResponse("оцени данную петицию переработай, название: "+ publication.getName()+", описание: "+ publication.getDescription()+" и также несколько актуальных коментарии: A)круто B)ужас C)невереятно")
-       );
-//        OpenAIApiClient apiClient = new OpenAIApiClient();
-//        String response = apiClient.getResponse("privet");
-//        System.out.println(response);
+        List<Comment> topComments = commentRepository.findTop3ByPublicationOrderByLikeCountDesc(publication);
+        StringBuilder commentsText = new StringBuilder();
+        for (Comment comment : topComments) {
+            commentsText.append(comment.getComment()).append(" "); // Разделители по желанию
+        }
+        System.out.println("the comments: "+commentsText);
+        return openAIApiService.getResponse("оцени данную публикацию(тут название/комментарии и описание) и переработай на петицию, название: "+ publication.getName()+", описание: "+ publication.getDescription()+" и также несколько актуальных коментариев: "+ commentsText+".Пример того как я хочу получить ответ: Название:бла-бла-бла. Описание:бла-бла-бла");
 
-//        String response = apiClient.getResponse("оцени данную петицию переработай, название: "+
-//                publication.getName()+", описание: "+ publication.getDescription()+" и также несколько актуальных коментарии: A)круто B)ужас C)невереятно");
-//        System.out.println(response);
-        return null;
     }
     @Override
     public Object uploadImagePetition(MultipartFile file, Long id) {

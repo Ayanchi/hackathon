@@ -51,7 +51,7 @@ public class PetitionController {
 
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     @GetMapping("/createPetitionWithChat/{publicationId}")
-    public PetitionResponse createPetitionOnChatGpt(@PathVariable Long publicationId){
+    public String createPetitionOnChatGpt(@PathVariable Long publicationId){
         return petitionService.createPetitionAI(publicationId);
     }
     @PreAuthorize("hasAnyAuthority('ADMIN')")
