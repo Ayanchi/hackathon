@@ -1,5 +1,6 @@
 package com.example.hackathon.controller;
 
+import com.example.hackathon.dto.comment.CommentRequest;
 import com.example.hackathon.dto.comment.CommentResponse;
 import com.example.hackathon.service.CommentService;
 import com.example.hackathon.service.PublicationService;
@@ -19,7 +20,7 @@ public class CommentController {
 
         @PostMapping("/comment/toPublication/{publicationId}")
         public void commentToPetition(@RequestHeader("Authorization") String token, @PathVariable Long publicationId,
-                                      @RequestBody(required = false) CommentResponse comment){
+                                      @RequestBody(required = false) CommentRequest comment){
             System.out.println("\n\ncomment:" + comment);
             publicationService.commentToPetition(token, publicationId, comment.getComment());
         }
