@@ -50,8 +50,8 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<CommentResponse> getbyPublicationId( Long publicationId) {
-        return commentMapper.toDtos(commentRepository.findAllByPublicationId(publicationId));
+    public List<CommentResponse> getbyPublicationId(Long publicationId) {
+        return commentMapper.toDtos(commentRepository.findAllByPublicationIdOrderByLikeCountDesc(publicationId));
     }
 
     @Transactional

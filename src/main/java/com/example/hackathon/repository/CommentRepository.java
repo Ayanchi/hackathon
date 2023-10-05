@@ -11,4 +11,6 @@ import java.util.List;
 public interface CommentRepository extends JpaRepository<Comment, Long> {
     List<Comment> findAllByPublicationId(Long publicationId);
     List<Comment> findTop3ByPublicationOrderByLikeCountDesc(Publication publication);
+    List<Comment> findAllByPublicationIdOrderByLikeCountDesc(Long publicationId);
+
 }
